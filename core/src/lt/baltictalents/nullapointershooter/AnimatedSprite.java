@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class AnimatedSprite {
@@ -20,6 +21,7 @@ public class AnimatedSprite {
     private Vector2 velocity = new Vector2();
 
     private float stateTime;
+    private boolean isDead = false;
 
     AnimatedSprite(Sprite sprite) {
         this.sprite = sprite;
@@ -75,12 +77,12 @@ public class AnimatedSprite {
 
         if (sprite.getX() < 0) {
             sprite.setX(0);
-            velocity.x = 0;
+
         }
 
         if (sprite.getX() + getSpriteWidth() > ShooterGame.VIEWPORT_WIDTH) {
             sprite.setX(ShooterGame.VIEWPORT_WIDTH - getSpriteWidth());
-            velocity.x = 0;
+
         }
 
     }
@@ -93,4 +95,27 @@ public class AnimatedSprite {
         return (int) sprite.getY();
     }
 
+    public int getWidth() {
+        return (int) getSpriteWidth();
+    }
+
+    public int getHeight() {
+        return (int) sprite.getHeight() / FRAMES_ROW;
+    }
+
+    public void changeDirection() {
+        velocity.x = -velocity.x;
+    }
+
+    public Rectangle getBoundingBox() {
+        return new Rectangle(sprite.getX(), sprite.getY(), getWidth(), getHeight());
+    }
+
+    public void setDead(boolean isDead) {
+        this.isDead = isDead;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
 }
